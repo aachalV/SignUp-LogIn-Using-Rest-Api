@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
   },
   paper: {
-    margin: theme.spacing(8, 8),
+    margin: theme.spacing(8, 6),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -69,6 +69,10 @@ export default function SignInSide() {
   });
 
   const handleChange = (event) => {
+    const { id, value } = event.target;
+    setValues({ ...values, [id]: value });
+  };
+  const handleSubmit = (event) => {
     const { id, value } = event.target;
     setValues({ ...values, [id]: value });
   };
