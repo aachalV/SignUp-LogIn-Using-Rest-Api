@@ -63,20 +63,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleChange = (event) => {
-    const { id, value } = event.target;
-    setValues({ ...values, [id]: value });
+    if (event.target.id === "email") {
+      setEmail(event.target.value);
+    }
+    if (event.target.id === "password") {
+      setPassword(event.target.value);
+    }
+    if (event.target.id === "confirmPassword") {
+      setConfirmPassword(event.target.value);
+    }
   };
-  const handleSubmit = (event) => {
-    const { id, value } = event.target;
-    setValues({ ...values, [id]: value });
-  };
+
+  // const handleSubmit = (event) => {
+  //   const { id, value } = event.target;
+  //   setValues({ ...values, [id]: value });
+  // };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -102,7 +109,7 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
-              value={values.email}
+              value={email}
               onChange={handleChange}
             />
             <TextField
@@ -115,7 +122,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={values.password}
+              value={password}
               onChange={handleChange}
             />
             <TextField
@@ -128,7 +135,7 @@ export default function SignInSide() {
               type="password"
               id="confirmPassword"
               autoComplete="current-password"
-              value={values.confirmPassword}
+              value={confirmPassword}
               onChange={handleChange}
             />
 

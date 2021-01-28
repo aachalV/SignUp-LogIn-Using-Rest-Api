@@ -74,7 +74,13 @@ export default function SignInSide() {
       setPassword(event.target.value);
     }
   };
-  // const handleSubmit = (event) => {
+  // const [values, setValues] = useState({
+  //   email: "",
+  //   password: "",
+  //   confirmPassword: "",
+  // });
+
+  // const handleChange = (event) => {
   //   const { id, value } = event.target;
   //   setValues({ ...values, [id]: value });
   // };
