@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
   },
   paper: {
-    margin: theme.spacing(8, 6),
+    margin: theme.spacing(2, 12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -64,32 +64,31 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleChange = (event) => {
+    if (event.target.id === "name") {
+      setName(event.target.value);
+    }
     if (event.target.id === "email") {
       setEmail(event.target.value);
+    }
+    if (event.target.id === "mobile") {
+      setMobile(event.target.value);
     }
     if (event.target.id === "password") {
       setPassword(event.target.value);
     }
-    if (event.target.id === "confirmPassword") {
-      setConfirmPassword(event.target.value);
-    }
   };
-
-  // const handleSubmit = (event) => {
-  //   const { id, value } = event.target;
-  //   setValues({ ...values, [id]: value });
-  // };
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={false} sm={4} md={6} className={classes.image} />
+      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -98,6 +97,20 @@ export default function SignInSide() {
             Sign Up
           </Typography>
           <form className={classes.form} noValidate>
+            <TextField
+              type="text"
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Your Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={name}
+              onChange={handleChange}
+            />
             <TextField
               type="email"
               variant="outlined"
@@ -117,12 +130,12 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
+              name="mobile"
+              label="Mobile Number"
+              type="tel"
+              id="mobile"
+              autoComplete="mobile"
+              value={mobile}
               onChange={handleChange}
             />
             <TextField
@@ -130,12 +143,12 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              name="confirmPassword"
-              label="Confirm Password"
+              name="password"
+              label="Password"
               type="password"
-              id="confirmPassword"
+              id="password"
               autoComplete="current-password"
-              value={confirmPassword}
+              value={password}
               onChange={handleChange}
             />
 
@@ -152,18 +165,7 @@ export default function SignInSide() {
             >
               SIGN UP
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            <Grid container></Grid>
             <Box mt={5}>
               <Copyright />
             </Box>
