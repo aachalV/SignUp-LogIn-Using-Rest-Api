@@ -15,6 +15,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { login } from "../../api/login";
+import auth from "../../helper/auth";
+// import { Redirect } from "react-router-dom";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -61,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function Login(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,17 +78,25 @@ export default function SignInSide() {
       setPassword(event.target.value);
     }
   };
-  // const [values, setValues] = useState({
-  //   email: "",
-  //   password: "",
-  //   confirmPassword: "",
-  // });
 
-  // const handleChange = (event) => {
-  //   const { id, value } = event.target;
-  //   setValues({ ...values, [id]: value });
-  // };
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    login({ email, password })
+      .then((response) => {
+        let result = response.data;
+        console.log("Result :", result);
+        if (result.success) {
+          auth.login(() => {
+            props.history.push("/dashboard");
+          });
+        } else {
+          alert(result.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -97,7 +109,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               type="email"
               variant="outlined"
