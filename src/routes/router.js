@@ -11,6 +11,7 @@ export default function Router() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+        <Route path="*" component={() => "404 Page Not Found"} />
       </Switch>
     </BrowserRouter>
   );
