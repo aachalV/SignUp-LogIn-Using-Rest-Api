@@ -2,7 +2,7 @@ import auth from "../helper/auth";
 export default function Dashboard(props) {
   const logoutUser = () => {
     auth.logout(() => {
-      props.history.push("/login");
+      props.history.push("/");
     });
   };
   return (
