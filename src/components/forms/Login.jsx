@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { login } from "../../api/login";
+import { api } from "../../api/axios";
 import auth from "../../helper/auth";
 // import { Redirect } from "react-router-dom";
 
@@ -81,25 +82,42 @@ export default function Login(props) {
       setPassword(event.target.value);
     }
   };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    login({ email, password })
-      .then((response) => {
-        let result = response.data;
-        console.log("Result token:", result.token);
-        if (result.success) {
-          auth.login(result.token, () => {
-            props.history.push("/dashboard");
-          });
-        } else {
-          alert(result.msg);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const result = await api({
+        url: "/user/login",
+        body: { email, password },
+        method: "POST",
       });
+      console.log("RESULT Login", result);
+      if (result.data.success) {
+        auth.login(result.data.token, () => {
+          props.history.push("/dashboard");
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   login({ email, password })
+  //     .then((response) => {
+  //       let result = response.data;
+  //       console.log("Result token:", result);
+  //       if (result.success) {
+  //         auth.login(result.token, () => {
+  //           props.history.push("/dashboard");
+  //         });
+  //       } else {
+  //         alert(result.msg);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

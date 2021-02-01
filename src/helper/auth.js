@@ -1,4 +1,4 @@
-import { setCookie } from "./manageCookies";
+import { setCookie, deleteCookie } from "./manageCookies";
 
 class Auth {
   constructor() {
@@ -10,6 +10,7 @@ class Auth {
     cb();
   }
   logout(cb) {
+    deleteCookie("token");
     this.authenticated = false;
     cb();
   }
