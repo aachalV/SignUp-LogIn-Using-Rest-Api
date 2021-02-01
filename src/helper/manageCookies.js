@@ -21,4 +21,11 @@ export function setCookie(name, value, options = {}) {
   }
 
   document.cookie = updatedCookie;
+  console.log(document.cookie);
+}
+
+export function deleteCookie(name) {
+  setCookie(name, "", {
+    "max-age": -1,
+  });
 }

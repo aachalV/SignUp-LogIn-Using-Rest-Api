@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://cdn.dribbble.com/users/720428/screenshots/6546803/isometric.png?compress=1&resize=800x600)",
-    // "url(https://lh3.googleusercontent.com/proxy/EDJfk0Y_pm1v7hiMz36GTf9gWgYEVCrb-b0W9zga4GQx_s_EWt1fDs7EnI1efCk0WF096Qjy7WdkvuQl6iDgT28-KJPExYkmDQ1qJwQ)",
+      "url(https://images.unsplash.com/photo-1487611459768-bd414656ea10?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80)",
+    // "url(https://cdn.dribbble.com/users/720428/screenshots/6546803/isometric.png?compress=1&resize=800x600)",
+
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -86,9 +87,9 @@ export default function Login(props) {
     login({ email, password })
       .then((response) => {
         let result = response.data;
-        console.log("Result :", result);
+        console.log("Result token:", result.token);
         if (result.success) {
-          auth.login(() => {
+          auth.login(result.token, () => {
             props.history.push("/dashboard");
           });
         } else {

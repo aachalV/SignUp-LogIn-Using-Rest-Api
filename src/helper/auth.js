@@ -4,7 +4,8 @@ class Auth {
   constructor() {
     this.authenticated = false;
   }
-  login(cb) {
+  login(token, cb) {
+    setCookie("token", token);
     this.authenticated = true;
     cb();
   }
