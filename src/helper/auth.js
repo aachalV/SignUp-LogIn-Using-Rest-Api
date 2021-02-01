@@ -1,3 +1,5 @@
+import { setCookie } from "./manageCookies";
+
 class Auth {
   constructor() {
     this.authenticated = false;
