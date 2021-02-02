@@ -8,7 +8,9 @@ export const api = async ({ url, body = {}, method = "GET" }) => {
   switch (method) {
     case "POST":
       const result = await instance.post(url, body);
-      return result;
+      if (result) {
+        return result;
+      }
 
       break;
 

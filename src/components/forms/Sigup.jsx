@@ -15,6 +15,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { api } from "../../api/axios";
+import auth from "../../helper/auth";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -65,26 +68,98 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const [verify, setVerify] = useState(false);
+  const [otp, setOtp] = useState("");
 
   const handleChange = (event) => {
-    if (event.target.id === "name") {
-      setName(event.target.value);
+    const key = event.target.id;
+    switch (key) {
+      case "name":
+        setName(event.target.value);
+        break;
+
+      case "email":
+        setEmail(event.target.value);
+        break;
+
+      case "mobile":
+        setMobile(event.target.value);
+        break;
+
+      case "password":
+        setPassword(event.target.value);
+        break;
+
+      case "otp":
+        setOtp(event.target.value);
+        break;
+
+      default:
+        break;
     }
-    if (event.target.id === "email") {
-      setEmail(event.target.value);
+    // if (event.target.id === "name") {
+    //   setName(event.target.value);
+    // }
+    // if (event.target.id === "email") {
+    //   setEmail(event.target.value);
+    // }
+    // if (event.target.id === "mobile") {
+    //   setMobile(event.target.value);
+    // }
+    // if (event.target.id === "password") {
+    //   setPassword(event.target.value);
+    // }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (verify) {
+      try {
+        const result = await api({
+          url: "/user/verifyRegister",
+          body: {
+            name: name,
+            email: email,
+            phone: mobile,
+            password: password,
+            otpResponse: otp,
+          },
+          method: "POST",
+        });
+        console.log("RESULT Signup", result);
+        if (result.data.success) {
+          console.log("Registered!!");
+          auth.login(result.data.token, () => {
+            props.history.push("/dashboard");
+          });
+        } else {
+          alert(result.data.msg);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
-    if (event.target.id === "mobile") {
-      setMobile(event.target.value);
-    }
-    if (event.target.id === "password") {
-      setPassword(event.target.value);
+    try {
+      const result = await api({
+        url: "/user/register",
+        body: { name: name, email: email, phone: mobile, password: password },
+        method: "POST",
+      });
+      console.log("RESULT Signup", result);
+      if (result.data.success) {
+        setVerify(true);
+      } else {
+        alert(result.data.msg);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -100,7 +175,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               type="text"
               variant="outlined"
@@ -155,6 +230,22 @@ export default function SignInSide() {
               value={password}
               onChange={handleChange}
             />
+            {verify ? (
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="otp"
+                label="OTP"
+                type="password"
+                id="otp"
+                value={otp}
+                onChange={handleChange}
+              />
+            ) : (
+              ""
+            )}
 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

@@ -15,7 +15,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { login } from "../../api/login";
 import { api } from "../../api/axios";
 import auth from "../../helper/auth";
 // import { Redirect } from "react-router-dom";
@@ -90,7 +89,7 @@ export default function Login(props) {
         body: { email, password },
         method: "POST",
       });
-      console.log("RESULT Login", result);
+      //console.log("RESULT Login", result);
       if (result.data.success) {
         auth.login(result.data.token, () => {
           props.history.push("/dashboard");
