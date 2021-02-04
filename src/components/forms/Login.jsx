@@ -17,6 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { api } from "../../api/axios";
 import auth from "../../helper/auth";
+import config from "../../configuration/Configuration";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -83,7 +85,7 @@ export default function Login(props) {
     event.preventDefault();
     try {
       const result = await api({
-        url: "/user/login",
+        url: config.LOGIN_URL,
         body: { email, password },
         method: "POST",
       });
@@ -102,24 +104,7 @@ export default function Login(props) {
       console.error(err);
     }
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   login({ email, password })
-  //     .then((response) => {
-  //       let result = response.data;
-  //       console.log("Result token:", result);
-  //       if (result.success) {
-  //         auth.login(result.token, () => {
-  //           props.history.push("/dashboard");
-  //         });
-  //       } else {
-  //         alert(result.msg);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

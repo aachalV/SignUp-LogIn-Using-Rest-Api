@@ -17,6 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { api } from "../../api/axios";
 import auth from "../../helper/auth";
+import config from "../../configuration/Configuration";
 
 function Copyright() {
   return (
@@ -111,7 +112,7 @@ export default function SignUp(props) {
     if (verify) {
       try {
         const result = await api({
-          url: "/user/verifyRegister",
+          url: config.VERIFY_REGISTER_URL,
           body: {
             name: name,
             email: email,
@@ -123,8 +124,8 @@ export default function SignUp(props) {
         });
         console.log("RESULT Signup", result);
         if (result.data.success) {
-          console.log("Registered!!");
-          auth.login(result.data.token, () => {
+          console.log(result.data.msg);
+          auth.signup(() => {
             props.history.push("/dashboard");
           });
         } else {
@@ -133,21 +134,22 @@ export default function SignUp(props) {
       } catch (err) {
         console.log(err);
       }
-    }
-    try {
-      const result = await api({
-        url: "/user/register",
-        body: { name: name, email: email, phone: mobile, password: password },
-        method: "POST",
-      });
-      console.log("RESULT Signup", result);
-      if (result.data.success) {
-        setVerify(true);
-      } else {
-        alert(result.data.msg);
+    } else {
+      try {
+        const result = await api({
+          url: config.SIGNUP_URL,
+          body: { name: name, email: email, phone: mobile, password: password },
+          method: "POST",
+        });
+        console.log("RESULT Signup", result);
+        if (result.data.success) {
+          setVerify(true);
+        } else {
+          alert(result.data.msg);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 

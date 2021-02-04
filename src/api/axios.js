@@ -1,7 +1,8 @@
 import axios from "axios";
+import config from "../configuration/Configuration";
 
 const instance = axios.create({
-  baseURL: "https://us-central1-ecomm-fed59.cloudfunctions.net/app",
+  baseURL: config.BASE_URL,
 });
 
 export const api = async ({ url, body = {}, method = "GET" }) => {
