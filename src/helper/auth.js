@@ -10,7 +10,7 @@ class Auth {
     cb();
   }
   login(token, cb) {
-    setCookie("token", token);
+    setCookie("token", token, { secure: true, "max-age": 86400 });
     this.authenticated = true;
     cb();
   }
@@ -18,6 +18,12 @@ class Auth {
     deleteCookie("token");
     this.authenticated = false;
     cb();
+  }
+  isRegistered() {
+    this.authenticated = true;
+  }
+  notRegistered() {
+    this.authenticated = false;
   }
   isAuthenticated() {
     return this.authenticated;
