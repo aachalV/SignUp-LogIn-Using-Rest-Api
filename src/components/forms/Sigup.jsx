@@ -104,18 +104,6 @@ export default function SignUp(props) {
       default:
         break;
     }
-    // if (event.target.id === "name") {
-    //   setName(event.target.value);
-    // }
-    // if (event.target.id === "email") {
-    //   setEmail(event.target.value);
-    // }
-    // if (event.target.id === "mobile") {
-    //   setMobile(event.target.value);
-    // }
-    // if (event.target.id === "password") {
-    //   setPassword(event.target.value);
-    // }
   };
 
   const handleSubmit = async (event) => {

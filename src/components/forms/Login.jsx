@@ -17,8 +17,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { api } from "../../api/axios";
 import auth from "../../helper/auth";
-// import { Redirect } from "react-router-dom";
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -89,14 +87,19 @@ export default function Login(props) {
         body: { email, password },
         method: "POST",
       });
-      //console.log("RESULT Login", result);
+      console.log("RESULT Login", result);
+      if (result === "err") {
+        return props.history.push("*");
+      }
       if (result.data.success) {
         auth.login(result.data.token, () => {
           props.history.push("/dashboard");
         });
+      } else {
+        alert(result.data.msg);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
   // const handleSubmit = (event) => {
