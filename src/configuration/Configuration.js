@@ -4,6 +4,7 @@ const config = {
     LOGIN_URL: "/user/login",
     SIGNUP_URL: "/user/register",
     VERIFY_REGISTER_URL: "/user/verifyRegister",
+    GET_USER_DETAILS: "/user",
   },
 };
 

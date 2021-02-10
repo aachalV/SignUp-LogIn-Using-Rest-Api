@@ -95,7 +95,7 @@ export default function Login(props) {
       }
       if (result.data.success) {
         auth.login(result.data.token, () => {
-          props.history.push("/dashboard");
+          props.history.push("/");
         });
       } else {
         alert(result.data.msg);

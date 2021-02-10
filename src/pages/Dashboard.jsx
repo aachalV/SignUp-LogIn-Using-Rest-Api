@@ -1,14 +1,71 @@
+import { Component } from "react";
+import { connect } from "react-redux";
 import auth from "../helper/auth";
-export default function Dashboard(props) {
-  const logoutUser = () => {
+import { getCookie } from "../helper/manageCookies";
+import { api } from "../api/axios";
+import config from "../configuration/Configuration";
+import userActionObjectGenerator from "../redux/actions/userAction.generator";
+import { userActionTypes } from "../redux/constants/userAction.types";
+class Dashboard extends Component {
+  state = {
+    name: "",
+  };
+  logoutUser = () => {
     auth.logout(() => {
-      props.history.push("/");
+      this.props.history.push("/");
     });
   };
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={logoutUser}>Logout</button>
-    </div>
-  );
+  componentDidMount() {
+    const token = getCookie("token");
+
+    api({
+      url: config.GET_USER_DETAILS,
+      headers: { Authorization: `Bearer ${token}` },
+      method: "GET",
+    })
+      .then((response) => {
+        let result = response.data;
+        if (result.success) {
+          console.log(result);
+          {
+            this.props.setUserDetails(result.user);
+          }
+        } else {
+          console.log("FAILED");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+        <h1>Dashboard</h1>
+        <h2>Welcome</h2>
+        <h3>{this.props.user.name}</h3>
+        <button onClick={this.logoutUser}>Logout</button>
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  console.log("MAP_STATE", state);
+  return {
+    user: state.userReducer.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUserDetails: (payload) => {
+      return dispatch(
+        userActionObjectGenerator(userActionTypes.SET_USER, payload)
+      );
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
