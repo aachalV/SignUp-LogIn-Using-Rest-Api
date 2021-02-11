@@ -7,9 +7,6 @@ import config from "../configuration/Configuration";
 import userActionObjectGenerator from "../redux/actions/userAction.generator";
 import { userActionTypes } from "../redux/constants/userAction.types";
 class Dashboard extends Component {
-  state = {
-    name: "",
-  };
   logoutUser = () => {
     auth.logout(() => {
       this.props.history.push("/");
@@ -26,7 +23,6 @@ class Dashboard extends Component {
       .then((response) => {
         let result = response.data;
         if (result.success) {
-          console.log(result);
           {
             this.props.setUserDetails(result.user);
           }
@@ -40,7 +36,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log("Check Props", this.props);
     return (
       <div>
         <h1>Dashboard</h1>
@@ -53,7 +49,6 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("MAP_STATE", state);
   return {
     user: state.userReducer.user,
   };
@@ -61,6 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setUserDetails: (payload) => {
+      console.log(payload);
       return dispatch(
         userActionObjectGenerator(userActionTypes.SET_USER, payload)
       );

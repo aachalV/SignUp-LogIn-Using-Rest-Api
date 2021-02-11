@@ -94,6 +94,7 @@ export default function Login(props) {
         return props.history.push("*");
       }
       if (result.data.success) {
+        console.log("LOGIN", result.data);
         auth.login(result.data.token, () => {
           props.history.push("/");
         });
