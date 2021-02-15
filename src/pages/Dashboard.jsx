@@ -1,42 +1,44 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import auth from "../helper/auth";
-import { getCookie } from "../helper/manageCookies";
-import { api } from "../api/axios";
-import config from "../configuration/Configuration";
-import userActionObjectGenerator from "../redux/actions/userAction.generator";
-import { userActionTypes } from "../redux/constants/userAction.types";
+import { userDashboardActionGenerator } from "../redux/actions/userAction.generator";
+
 class Dashboard extends Component {
   logoutUser = () => {
     auth.logout(() => {
-      this.props.history.push("/");
+      this.props.history.push("/login");
     });
   };
-  componentDidMount() {
-    const token = getCookie("token");
 
-    api({
-      url: config.GET_USER_DETAILS,
-      headers: { Authorization: `Bearer ${token}` },
-      method: "GET",
-    })
-      .then((response) => {
-        let result = response.data;
-        if (result.success) {
-          {
-            this.props.setUserDetails(result.user);
-          }
-        } else {
-          console.log("FAILED");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  componentDidMount() {
+    if (Object.keys(this.props.user === 0)) {
+      this.props.setUserDetails();
+    }
   }
+  // componentDidMount() {
+  //   const token = getCookie("token");
+
+  //   api({
+  //     url: config.GET_USER_DETAILS,
+  //     headers: { Authorization: `Bearer ${token}` },
+  //     method: "GET",
+  //   })
+  //     .then((response) => {
+  //       let result = response.data;
+  //       if (result.success) {
+  //         {
+  //           this.props.setUserDetails(result.user);
+  //         }
+  //       } else {
+  //         console.log("FAILED");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   render() {
-    console.log("Check Props", this.props);
     return (
       <div>
         <h1>Dashboard</h1>
@@ -55,13 +57,19 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUserDetails: (payload) => {
-      console.log(payload);
-      return dispatch(
-        userActionObjectGenerator(userActionTypes.SET_USER, payload)
-      );
-    },
+    setUserDetails: (payload) =>
+      dispatch(userDashboardActionGenerator(payload)),
   };
 };
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     setUserDetails: (payload) => {
+//       console.log(payload);
+//       return dispatch(
+//         userActionObjectGenerator(userActionTypes.SET_USER, payload)
+//       );
+//     },
+//   };
+// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

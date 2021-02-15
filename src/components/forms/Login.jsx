@@ -1,5 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { userLoginActionGenerator } from "../../redux/actions/userAction.generator";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,9 +17,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { api } from "../../api/axios";
-import auth from "../../helper/auth";
-import config from "../../configuration/Configuration";
+// import { api } from "../../api/axios";
+// import auth from "../../helper/auth";
+// import config from "../../configuration/Configuration";
 
 function Copyright() {
   return (
@@ -68,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+function Login(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,29 +83,35 @@ export default function Login(props) {
       setPassword(event.target.value);
     }
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      const result = await api({
-        url: config.LOGIN_URL,
-        body: { email, password },
-        method: "POST",
-      });
-      console.log("RESULT Login", result);
-      if (result === "err") {
-        return props.history.push("*");
-      }
-      if (result.data.success) {
-        console.log("LOGIN", result.data);
-        auth.login(result.data.token, () => {
-          props.history.push("/");
-        });
-      } else {
-        alert(result.data.msg);
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    props.userLoginActionGenerator({
+      email,
+      password,
+      route: props.history,
+    });
+    //props.history.push("/");
+    // try {
+    //   const result = await api({
+    //     url: config.LOGIN_URL,
+    //     body: { email, password },
+    //     method: "POST",
+    //   });
+    //   console.log("RESULT Login", result);
+    //   if (result === "err") {
+    //     return props.history.push("*");
+    //   }
+    //   if (result.data.success) {
+    //     console.log("LOGIN", result.data);
+    //     auth.login(result.data.token, () => {
+    //       props.history.push("/");
+    //     });
+    //   } else {
+    //     alert(result.data.msg);
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (
@@ -181,3 +189,16 @@ export default function Login(props) {
     </Grid>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userLoginActionGenerator: (payload) =>
+      dispatch(userLoginActionGenerator(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

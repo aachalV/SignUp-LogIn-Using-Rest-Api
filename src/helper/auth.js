@@ -9,11 +9,10 @@ class Auth {
     this.authenticated = true;
     cb();
   }
-  login(token, cb) {
+  login(token) {
     setCookie("token", token, { expires: new Date(Date.now() + 86400e3) });
     //{ secure: true, "max-age": 86400 }
     this.authenticated = true;
-    cb();
   }
   logout(cb) {
     deleteCookie("token");
