@@ -57,8 +57,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUserDetails: (payload) =>
-      dispatch(userDashboardActionGenerator(payload)),
+    setUserDetails: () => dispatch(userDashboardActionGenerator()),
   };
 };
 // const mapDispatchToProps = (dispatch) => {

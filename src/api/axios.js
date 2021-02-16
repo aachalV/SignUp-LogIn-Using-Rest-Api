@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../configuration/Configuration";
-
+import { userRequestFailed } from "../redux/actions/userAction.generator";
+import Store from "../redux/store/store";
 const instance = axios.create({
   baseURL: config.BASE_URL,
 });
@@ -17,8 +18,7 @@ export const api = async ({ url, body = {}, headers = {}, method = "GET" }) => {
           }
         }
       } catch (err) {
-        alert(err.message);
-        return "err";
+        Store.dispatch(userRequestFailed(err));
       }
 
       break;
@@ -33,6 +33,7 @@ export const api = async ({ url, body = {}, headers = {}, method = "GET" }) => {
         }
       } catch (err) {
         console.log(err);
+        Store.dispatch(userRequestFailed(err));
         return err;
       }
       break;
