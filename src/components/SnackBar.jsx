@@ -4,6 +4,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import { closeNotification } from "../redux/actions/userAction.generator";
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -21,7 +22,6 @@ function CustomizedSnackbars(props) {
   console.log("Customized", props);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [error, setError] = React.useState("");
   useEffect(() => {
     if (Object.keys(props !== 0)) {
       setOpen(true);
@@ -45,16 +45,12 @@ function CustomizedSnackbars(props) {
           </Alert>
         </Snackbar>
       ) : (
-        ""
+        <span></span>
       )}
-
-      {/* <Alert severity="error">This is an error message!</Alert>
-      <Alert severity="warning">This is a warning message!</Alert>
-      <Alert severity="info">This is an information message!</Alert>
-      <Alert severity="success">This is a success message!</Alert> */}
     </div>
   );
 }
+
 const mapStateToProps = (state) => {
   console.log("Snackbar", state.notifyReducer.msg);
   return {

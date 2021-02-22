@@ -3,7 +3,7 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import Login from "../components/forms/Login";
 import Signup from "../components/forms/Sigup";
 import Dashboard from "../pages/Dashboard";
-import CustomizedSnackbars from "../components/snackBar";
+import CustomizedSnackbars from "../components/SnackBar";
 export default function Router() {
   return (
     <BrowserRouter>

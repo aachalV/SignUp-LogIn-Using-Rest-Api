@@ -109,6 +109,7 @@ export default function SignUp(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (verify) {
       try {
         const result = await api({
@@ -250,7 +251,13 @@ export default function SignUp(props) {
             >
               SIGN UP
             </Button>
-            <Grid container></Grid>
+            <Grid container>
+              <Grid item>
+                <Link href="/signup" variant="body2">
+                  {"Already have an account? Login"}
+                </Link>
+              </Grid>
+            </Grid>
             <Box mt={5}>
               <Copyright />
             </Box>
