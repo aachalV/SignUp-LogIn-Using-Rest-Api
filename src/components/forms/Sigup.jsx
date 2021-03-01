@@ -109,7 +109,7 @@ export default function SignUp(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log("Clicked");
     if (verify) {
       try {
         const result = await api({
@@ -136,6 +136,7 @@ export default function SignUp(props) {
         console.log(err);
       }
     } else {
+      console.log("Clicked....");
       try {
         const result = await api({
           url: config.SIGNUP_URL,
@@ -145,6 +146,7 @@ export default function SignUp(props) {
         console.log("RESULT Signup", result);
         if (result.data.success) {
           setVerify(true);
+          console.log("Clicked....setVerify");
         } else {
           alert(result.data.msg);
         }
@@ -223,6 +225,7 @@ export default function SignUp(props) {
             />
             {verify ? (
               <TextField
+                data-testid="otp-field"
                 variant="outlined"
                 margin="normal"
                 required
@@ -243,6 +246,7 @@ export default function SignUp(props) {
               label="Remember me"
             />
             <Button
+              data-testid="signup-btn"
               type="submit"
               fullWidth
               variant="contained"
@@ -253,7 +257,7 @@ export default function SignUp(props) {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/login" variant="body2">
                   {"Already have an account? Login"}
                 </Link>
               </Grid>

@@ -5,11 +5,11 @@ import Signup from "../components/forms/Sigup";
 import Dashboard from "../pages/Dashboard";
 import CustomizedSnackbars from "../components/SnackBar";
 export default function Router() {
+  //console.log("Router.js", props.children);
   return (
     <BrowserRouter>
       <CustomizedSnackbars />
       <Switch>
-        <Route exact path="/login" component={Login} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <ProtectedRoute exact path="/" component={Dashboard} />
